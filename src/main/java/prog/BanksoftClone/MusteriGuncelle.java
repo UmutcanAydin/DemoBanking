@@ -27,6 +27,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
@@ -51,19 +53,22 @@ public class MusteriGuncelle extends JDialog {
 	private JTextField txtMusteriBul;
 	private JRadioButton rdbtnTckn;
 	private ButtonGroup tcknveyamusteri;
-	private JRadioButton rdbtnMusteri; 
+	private JRadioButton rdbtnMusteri;
+	private JRadioButton rdbtnSubeKodu;
 	private JComboBox<Object> cbSubeKodu;
-	String musterino;
-	String isim;
-	String soyisim; 
-	String tcno;
-	String telefon;
-	String babaadi;
-	String dogumyeri;
-	String dogumtarihi;
-	String eposta;
-	String subekodu;
-	
+	private JComboBox<Object> cbSubeKoduBul;
+	private String musterino;
+	private String isim;
+	private String soyisim; 
+	private String tcno;
+	private String telefon;
+	private String babaadi;
+	private String dogumyeri;
+	private String dogumtarihi;
+	private String eposta;
+	private String subekodu;
+	private Object objectId;
+
 	/**
 	 * Launch the application.
 	 */
@@ -77,7 +82,6 @@ public class MusteriGuncelle extends JDialog {
 		}
 	}
 	
-	Object objectId;
 	private void bul() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
@@ -89,41 +93,25 @@ public class MusteriGuncelle extends JDialog {
 		}else if(rdbtnTckn.isSelected()) {
 			whereQuery.put("tcno", txtMusteriBul.getText());
 		}
+		else if(rdbtnSubeKodu.isSelected()) {
+			whereQuery.put("subekodu", cbSubeKoduBul.getSelectedItem());
+		}
 		
+		FindIterable<Document> iterable = MusteriCollection.find(whereQuery);
+		for (Document d : iterable) {
+			isim = (String) d.get("isim");
+			soyisim = (String) d.get("soyisim");
+			tcno = (String) d.get("tcno");
+			telefon = (String) d.get("telefon");
+			babaadi = (String) d.get("babaadi");
+			dogumyeri = (String) d.get("dogumyeri");
+			dogumtarihi = (String) d.get("dogumtarihi");
+			eposta = (String) d.get("e-posta");
+			musterino = (String) d.get("musterino");
+			subekodu = (String) d.get("subekodu");
+			model.addRow(new Object[]{isim,soyisim,tcno,telefon,babaadi,dogumyeri,dogumtarihi,eposta,musterino,subekodu});
+		}
 		
-		Document d = MusteriCollection.find(whereQuery).first();
-		isim = (String) d.get("isim");
-		soyisim = (String) d.get("soyisim");
-		tcno = (String) d.get("tcno");
-		telefon = (String) d.get("telefon");
-		babaadi = (String) d.get("babaadi");
-		dogumyeri = (String) d.get("dogumyeri");
-		dogumtarihi = (String) d.get("dogumtarihi");
-		eposta = (String) d.get("e-posta");
-		musterino = (String) d.get("musterino");
-		subekodu = (String) d.get("subekodu");
-		model.addRow(new Object[]{isim,soyisim,tcno,telefon,babaadi,dogumyeri,dogumtarihi,eposta,musterino,subekodu});
-		/*txtMusteriAdi.setEnabled(true);
-		txtMusteriSoyadı.setEnabled(true);
-		txtTcNum.setEnabled(true);
-		txtTelefon.setEnabled(true);
-		txtBabaAdi.setEnabled(true);
-		txtDogumYeri.setEnabled(true);
-		ftxtDogumTarihi.setEnabled(true);
-		txtEposta.setEnabled(true);
-		txtMusteriNo.setEnabled(true);
-		cbSubeKodu.setEnabled(true);
-		txtMusteriAdi.setText(isim);
-		txtMusteriSoyadı.setText(soyisim);
-		txtTcNum.setText(tcno);
-		txtTelefon.setText(telefon);
-		txtBabaAdi.setText(babaadi);
-		txtDogumYeri.setText(dogumyeri);
-		ftxtDogumTarihi.setText(dogumtarihi);
-		txtEposta.setText(eposta);
-		txtMusteriNo.setText(musterino);
-		cbSubeKodu.setSelectedItem(subekodu);
-	    objectId = (Object) d.get("_id");*/
 	   
 	}
 	
@@ -141,16 +129,22 @@ public class MusteriGuncelle extends JDialog {
         			.append("babaadi", txtBabaAdi.getText())
         			.append("dogumyeri", txtDogumYeri.getText())
         			.append("dogumtarihi", ftxtDogumTarihi.getText())
-        			.append("eposta", txtEposta.getText())
+        			.append("e-posta", txtEposta.getText())
         			.append("musterino", txtMusteriNo.getText())
         			.append("subekodu", cbSubeKodu.getSelectedItem());
         Document setQuery = new Document();
         setQuery.append("$set", updateFields);
         MusteriCollection.updateOne(query, setQuery);
-        model.addRow(new Object[]{txtMusteriAdi.getText(),txtMusteriSoyadı.getText(),txtTcNum.getText(),
-				  txtTelefon.getText(),txtBabaAdi.getText(),txtDogumYeri.getText(),
-				  ftxtDogumTarihi.getText(),txtEposta.getText(),txtMusteriNo.getText(),
-				  cbSubeKodu.getSelectedItem()});
+        model.setValueAt(txtMusteriAdi.getText(), table.getSelectedRow(), 0);
+        model.setValueAt(txtMusteriSoyadı.getText(), table.getSelectedRow(), 1);
+        model.setValueAt(txtTcNum.getText(), table.getSelectedRow(), 2);
+        model.setValueAt(txtTelefon.getText(), table.getSelectedRow(), 3);
+        model.setValueAt(txtBabaAdi.getText(), table.getSelectedRow(), 4);
+        model.setValueAt(txtDogumYeri.getText(), table.getSelectedRow(), 5);
+        model.setValueAt(ftxtDogumTarihi.getText(), table.getSelectedRow(), 6);
+        model.setValueAt(txtEposta.getText(), table.getSelectedRow(), 7);
+        model.setValueAt(txtMusteriNo.getText(), table.getSelectedRow(), 8);
+        model.setValueAt(cbSubeKodu.getSelectedItem(), table.getSelectedRow(), 9);
 	}
 	
 	private void temizle() {
@@ -181,13 +175,13 @@ public class MusteriGuncelle extends JDialog {
 			pnlButtons.setToolTipText("");
 			contentPanel.add(pnlButtons, BorderLayout.SOUTH);
 			
-			JButton btnGiris = new JButton("Güncelle");
-			btnGiris.addActionListener(new ActionListener() {
+			JButton btnGuncelle = new JButton("Güncelle");
+			btnGuncelle.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					guncelle();
+					guncelle();				
 				}
 			});
-			pnlButtons.add(btnGiris);
+			pnlButtons.add(btnGuncelle);
 			
 			JButton btnTemizle = new JButton("Temizle");
 			btnTemizle.addActionListener(new ActionListener() {
@@ -288,13 +282,39 @@ public class MusteriGuncelle extends JDialog {
 		rdbtnTckn = new JRadioButton("TCKN");
 		rdbtnTckn.setSelected(true);
 		rdbtnTckn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		rdbtnTckn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				txtMusteriBul.setEnabled(true);
+				cbSubeKoduBul.setEnabled(false);
+			}
+		});
 		
 		rdbtnMusteri = new JRadioButton("Müşteri");
 		rdbtnMusteri.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		rdbtnMusteri.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+						txtMusteriBul.setEnabled(true);
+						cbSubeKoduBul.setEnabled(false);
+					}
+				});
+		
+		rdbtnSubeKodu = new JRadioButton("Şube Kodu");
+		rdbtnSubeKodu.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		rdbtnSubeKodu.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				cbSubeKoduBul.setEnabled(true);
+				txtMusteriBul.setEnabled(false);
+			}
+		});
 		
 		tcknveyamusteri = new ButtonGroup();
 		tcknveyamusteri.add(rdbtnMusteri);
 		tcknveyamusteri.add(rdbtnTckn);
+		tcknveyamusteri.add(rdbtnSubeKodu);
+
 		
 		txtMusteriBul = new JTextField();
 		txtMusteriBul.setColumns(10);
@@ -303,6 +323,8 @@ public class MusteriGuncelle extends JDialog {
 		btnBul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					DefaultTableModel tm = (DefaultTableModel) table.getModel();
+					tm.setRowCount(0);
 					bul();
 				}catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Lütfen Geçerli Bir Numara Giriniz.");
@@ -318,9 +340,10 @@ public class MusteriGuncelle extends JDialog {
 		cbSubeKodu.setEnabled(false);
 		cbSubeKodu.setModel(new DefaultComboBoxModel<Object>(new String[] {"Sube1", "Sube2", "Sube3", "Sube4"}));
 		
-		JRadioButton rdbtnubeKodu = new JRadioButton("Şube Kodu");
-		rdbtnubeKodu.setSelected(true);
-		rdbtnubeKodu.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		cbSubeKoduBul = new JComboBox<Object>();
+		cbSubeKoduBul.setModel(new DefaultComboBoxModel<Object>(new String[] {"Sube1", "Sube2", "Sube3", "Sube4"}));
+		cbSubeKoduBul.setEnabled(false);
 		GroupLayout gl_pnlInputs = new GroupLayout(pnlInputs);
 		gl_pnlInputs.setHorizontalGroup(
 			gl_pnlInputs.createParallelGroup(Alignment.LEADING)
@@ -344,8 +367,11 @@ public class MusteriGuncelle extends JDialog {
 								.addComponent(lblEpostaAdres)))
 						.addComponent(lblSubeKodu, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_pnlInputs.createSequentialGroup()
-							.addComponent(rdbtnubeKodu, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(rdbtnSubeKodu, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cbSubeKoduBul, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
 							.addComponent(rdbtnTckn, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(rdbtnMusteri, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE)))
@@ -369,7 +395,7 @@ public class MusteriGuncelle extends JDialog {
 								.addComponent(txtDogumYeri)
 								.addComponent(txtMusteriNo, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)))
 						.addComponent(btnBul, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(54, Short.MAX_VALUE))
+					.addContainerGap(15, Short.MAX_VALUE))
 		);
 		gl_pnlInputs.setVerticalGroup(
 			gl_pnlInputs.createParallelGroup(Alignment.LEADING)
@@ -380,7 +406,8 @@ public class MusteriGuncelle extends JDialog {
 						.addComponent(btnBul)
 						.addComponent(rdbtnMusteri)
 						.addComponent(rdbtnTckn)
-						.addComponent(rdbtnubeKodu, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+						.addComponent(rdbtnSubeKodu, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cbSubeKoduBul, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pnlInputs.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_pnlInputs.createSequentialGroup()
@@ -445,5 +472,69 @@ public class MusteriGuncelle extends JDialog {
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
+		table.addMouseListener(new MouseListener() {
+			
+			
+			public void mousePressed(MouseEvent e) {
+
+				
+				txtMusteriAdi.setEnabled(true);
+				txtMusteriSoyadı.setEnabled(true);
+				txtTcNum.setEnabled(true);
+				txtTelefon.setEnabled(true);
+				txtBabaAdi.setEnabled(true);
+				txtDogumYeri.setEnabled(true);
+				ftxtDogumTarihi.setEnabled(true);
+				txtEposta.setEnabled(true);
+				txtMusteriNo.setEnabled(true);
+				cbSubeKodu.setEnabled(true);
+				
+				
+				txtMusteriAdi.setText(model.getValueAt(table.getSelectedRow(), 0).toString());
+				txtMusteriSoyadı.setText(model.getValueAt(table.getSelectedRow(), 1).toString());
+				txtTcNum.setText(model.getValueAt(table.getSelectedRow(), 2).toString());
+				txtTelefon.setText(model.getValueAt(table.getSelectedRow(), 3).toString());
+				txtBabaAdi.setText(model.getValueAt(table.getSelectedRow(), 4).toString());
+				txtDogumYeri.setText(model.getValueAt(table.getSelectedRow(), 5).toString());
+				ftxtDogumTarihi.setText(model.getValueAt(table.getSelectedRow(), 6).toString());
+				txtEposta.setText(model.getValueAt(table.getSelectedRow(), 7).toString());
+				txtMusteriNo.setText(model.getValueAt(table.getSelectedRow(), 8).toString());
+				cbSubeKodu.setSelectedItem(model.getValueAt(table.getSelectedRow(), 9).toString());
+				
+				/*id = d.get("_id");*/
+				
+				MongoClient mongoClient = MongoClients.create();
+				MongoDatabase database = mongoClient.getDatabase("Banksoft");
+				MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
+				Document whereQuery = new Document();
+				whereQuery.put("musterino", model.getValueAt(table.getSelectedRow(), 8).toString());
+				FindIterable<Document> iter = MusteriCollection.find(whereQuery);
+				for(Document d : iter) {
+				objectId = d.get("_id");
+				}
+
+			}
+
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 }
