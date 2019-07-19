@@ -87,6 +87,14 @@ public class Mainscreen extends JFrame {
 		
 			mntmKYonetimGiris = new JMenuItem("Giriş");
 			mnKartYonetim.add(mntmKYonetimGiris);
+			mntmKYonetimGiris.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent e) {
+					KartGiris kvhgiris = new KartGiris();
+					kvhgiris.setVisible(true);
+					
+				}
+			});
 			
 			mntmKyonetimGuncelleme = new JMenuItem("Güncelleme");
 			mnKartYonetim.add(mntmKyonetimGuncelleme);
