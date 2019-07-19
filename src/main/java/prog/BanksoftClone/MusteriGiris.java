@@ -71,7 +71,6 @@ public class MusteriGiris extends JDialog {
 		musteri.append("e-posta", txtEposta.getText());
 		musteri.append("musterino", txtMusteriNo.getText());
 		musteri.append("subekodu", cbSubeKodu.getSelectedItem());
-		
 		MusteriCollection.insertOne(musteri);
 		
 		model.addRow(new Object[]{txtMusteriAdi.getText(),txtMusteriSoyadı.getText(),txtTcNum.getText(),
