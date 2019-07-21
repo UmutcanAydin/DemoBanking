@@ -10,6 +10,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -263,7 +265,12 @@ public class KartGiris extends JDialog {
 				JButton btnHesapGiris = new JButton("Giriş");
 				btnHesapGiris.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						HesapGiris();
+						if(!txtHesapNo.getText().equals("")) {
+							HesapGiris();
+						}else {
+							JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
+						}
+						
 					}
 				});
 				panel_3.add(btnHesapGiris);
@@ -279,8 +286,13 @@ public class KartGiris extends JDialog {
 				JButton btnYeniHesap = new JButton("Yeni Hesap");
 				btnYeniHesap.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						HesapGiris();
-						HesapTemizle();
+						if(!txtHesapNo.getText().equals("")) {
+							HesapGiris();
+							HesapTemizle();
+						}else {
+							JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
+						}
+					
 					}
 				});
 				panel_3.add(btnYeniHesap);
@@ -308,8 +320,12 @@ public class KartGiris extends JDialog {
 				JButton btnHesapMustBul = new JButton("Bul");
 				btnHesapMustBul.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						HesapBul();
-						subeidal();
+						if(!txtHesapMustGetir.getText().equals("")) {
+							HesapBul();
+							subeidal();
+						}else {
+							JOptionPane.showMessageDialog(null, "Lütfen Müşteri Numarası Girin.");
+						}
 					}
 				});
 				GroupLayout gl_panel_4 = new GroupLayout(panel_4);
@@ -447,7 +463,11 @@ public class KartGiris extends JDialog {
 				JButton btnMustBul = new JButton("Bul");
 				btnMustBul.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						KartBul();
+						if(!txtMustGetir.getText().equals("")) {
+							KartBul();
+						}else {
+							JOptionPane.showMessageDialog(null, "Lütfen Müşteri Numarası Girin.");
+						}
 					}
 				});
 				
@@ -584,7 +604,11 @@ public class KartGiris extends JDialog {
 				JButton btnKartGiris = new JButton("Giriş");
 				btnKartGiris.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						KartGiris();
+						if(!txtKartNo.getText().equals("") && !ftxtKartGecerlilikTarihi.getText().equals("") && !txtKartCvv.getText().equals("")) {
+							KartGiris();
+						}else {
+							JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
+						}
 					}
 				});
 				panel_1.add(btnKartGiris);
@@ -600,8 +624,12 @@ public class KartGiris extends JDialog {
 				JButton btnYeniKart = new JButton("Yeni Kart");
 				btnYeniKart.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						KartGiris();
-						KartTemizle();
+						if(!txtKartNo.getText().equals("") && !ftxtKartGecerlilikTarihi.getText().equals("") && !txtKartCvv.getText().equals("")) {
+							KartGiris();
+							KartTemizle();
+						}else {
+							JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
+						}
 					}
 				});
 				panel_1.add(btnYeniKart);
