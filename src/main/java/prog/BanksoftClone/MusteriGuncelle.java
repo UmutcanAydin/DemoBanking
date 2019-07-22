@@ -120,7 +120,7 @@ public class MusteriGuncelle extends JDialog {
 	   
 	}
 	
-	public void guncelle() {
+	public void guncelle() throws Exception {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
@@ -139,6 +139,25 @@ public class MusteriGuncelle extends JDialog {
         			.append("subekodu", cbSubeKodu.getSelectedItem());
         Document setQuery = new Document();
         setQuery.append("$set", updateFields);
+        if(txtMusteriAdi.getText().equals("")) {
+			throw new Exception("Lütfen Müşteri Adı Girin");
+        }else if(txtMusteriSoyadı.getText().equals("")){		
+			throw new Exception("Lütfen Müşteri Soyadı Girin");		
+        }else if(txtMusteriNo.getText().equals("")){			
+			throw new Exception("Lütfen Müşteri Numarası Girin");		
+        }else if(txtTcNum.getText().equals("")){		
+			throw new Exception("Lütfen Müşteri TC Numarası Girin");		
+        }else if(txtTelefon.getText().equals("")){			
+			throw new Exception("Lütfen Müşteri Telefonu Girin");			
+        }else if(ftxtDogumTarihi.getText().equals("")){			
+			throw new Exception("Lütfen Müşteri Doğum Tarihi Girin");			
+        }else if(txtEposta.getText().equals("")){
+			throw new Exception("Lütfen Müşteri Epostası Girin");			
+        }else if(txtDogumYeri.getText().equals("")){			
+			throw new Exception("Lütfen Müşteri Dopum Yeri Girin");			
+        }else if(txtBabaAdi.getText().equals("")){			
+			throw new Exception("Lütfen Müşteri Baba Adı Girin");		
+        }
         MusteriCollection.updateOne(query, setQuery);
         model.setValueAt(txtMusteriAdi.getText(), table.getSelectedRow(), 0);
         model.setValueAt(txtMusteriSoyadı.getText(), table.getSelectedRow(), 1);
@@ -183,7 +202,12 @@ public class MusteriGuncelle extends JDialog {
 			JButton btnGuncelle = new JButton("Güncelle");
 			btnGuncelle.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {					
-						guncelle();					
+						try {
+							guncelle();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}					
 				}
 			});
 			pnlButtons.add(btnGuncelle);
