@@ -178,7 +178,13 @@ public class MusteriGuncelle extends JDialog {
 			JButton btnGuncelle = new JButton("Güncelle");
 			btnGuncelle.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					guncelle();				
+					if(!txtMusteriAdi.getText().equals("") && !txtMusteriSoyadı.getText().equals("") && !txtMusteriNo.getText().equals("") &&
+					   !txtTcNum.getText().equals("") && !txtTelefon.getText().equals("") && !ftxtDogumTarihi.getText().equals("") &&
+					   !txtBabaAdi.getText().equals("") && !txtDogumYeri.getText().equals("") && txtEposta.getText().equals("")) {
+						guncelle();	
+					}else {
+						JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
+					}
 				}
 			});
 			pnlButtons.add(btnGuncelle);
@@ -322,12 +328,12 @@ public class MusteriGuncelle extends JDialog {
 		JButton btnBul = new JButton("Bul");
 		btnBul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
+				if(!txtMusteriNo.getText().equals("")) {
 					DefaultTableModel tm = (DefaultTableModel) table.getModel();
 					tm.setRowCount(0);
 					bul();
-				}catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Lütfen Geçerli Bir Numara Giriniz.");
+				}else {
+					JOptionPane.showMessageDialog(null, "Lütfen Bir Müşteri Numarası Giriniz.");
 				}
 			}
 		});

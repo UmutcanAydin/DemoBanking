@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -113,7 +114,13 @@ public class MusteriGiris extends JDialog {
 			JButton btnGiris = new JButton("Giriş");
 			btnGiris.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					giris();
+					if(!txtMusteriAdi.getText().equals("") && !txtMusteriSoyadı.getText().equals("") && !txtMusteriNo.getText().equals("") &&
+							   !txtTcNum.getText().equals("") && !txtTelefon.getText().equals("") && !ftxtDogumTarihi.getText().equals("") &&
+							   !txtBabaAdi.getText().equals("") && !txtDogumYeri.getText().equals("") && txtEposta.getText().equals("")) {
+						giris();		
+					}else {
+						JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
+					}
 				}
 			});
 			pnlButtons.add(btnGiris);
@@ -129,8 +136,14 @@ public class MusteriGiris extends JDialog {
 			JButton btnYeniMusteri = new JButton("Yeni Müşteri");
 			btnYeniMusteri.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					giris();
-					temizle();
+					if(!txtMusteriAdi.getText().equals("") && !txtMusteriSoyadı.getText().equals("") && !txtMusteriNo.getText().equals("") &&
+					   !txtTcNum.getText().equals("") && !txtTelefon.getText().equals("") && !ftxtDogumTarihi.getText().equals("") &&
+					   !txtBabaAdi.getText().equals("") && !txtDogumYeri.getText().equals("") && txtEposta.getText().equals("")) {
+						giris();
+						temizle();	
+					}else {
+						JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
+					}
 				}
 			});
 			pnlButtons.add(btnYeniMusteri);
