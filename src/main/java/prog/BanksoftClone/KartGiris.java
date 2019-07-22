@@ -29,6 +29,7 @@ import com.mongodb.client.MongoDatabase;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -69,6 +70,8 @@ public class KartGiris extends JDialog {
 	private JComboBox cbDovizCinsi;
 	private JComboBox cbHesapSubesi;
 	private JTabbedPane tabbedPane;
+	private ArrayList<Document> hesaplar;
+	private ArrayList<Document> kartlar;
 	/**
 	 * Launch the application.
 	 */
@@ -111,15 +114,19 @@ public class KartGiris extends JDialog {
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
 		Document query = new Document();
         query.append("musterino", model.getValueAt(table.getRowCount()-1, 0).toString());
-        Document updateFields = new Document();
+
         Document hesap = new Document();
         hesap.put("hesapno", txtHesapNo.getText());
         hesap.put("hesapşubesi", cbHesapSubesi.getSelectedItem());
         hesap.put("dövizcinsi", cbDovizCinsi.getSelectedItem());
-        updateFields.append("hesap", hesap);
-        			
+    	
+		FindIterable<Document> iterable = MusteriCollection.find(query);
+		for (Document d : iterable) {
+			hesaplar = (ArrayList<Document>) d.get("hesaplar");
+		}
+		hesaplar.add(hesap);
         Document setQuery = new Document();
-        setQuery.append("$set", updateFields);
+        setQuery.append("$set", new Document("hesaplar",hesaplar));
         MusteriCollection.updateOne(query, setQuery);
 		
 		model2.addRow(new Object[]{txtHesapNo.getText(),cbHesapSubesi.getSelectedItem(),cbDovizCinsi.getSelectedItem()});
@@ -142,8 +149,7 @@ public class KartGiris extends JDialog {
 				dogumtarihi = (String) d.get("dogumtarihi");
 				musterino = (String) d.get("musterino");
 				subekodu = (String) d.get("subekodu");
-				hesapp = (Document) d.get("hesap");
-				hesapNo = (String) hesapp.get("hesapno");
+				
 			}
 			txtAd.setText(isim);
 			txtSoyad.setText(soyisim);
@@ -152,7 +158,7 @@ public class KartGiris extends JDialog {
 			txtDogumYeri.setText(dogumyeri);
 			ftxtDogumTarihi.setText(dogumtarihi);
 			txtAnaHesap.setEnabled(true);
-			txtAnaHesap.setText(hesapNo);
+			btnHesaplar.setEnabled(true);
 			cbKartGrubu.setEnabled(true);
 			cbSube.setEnabled(true);
 			cbSube.setSelectedItem(subekodu);
@@ -161,13 +167,14 @@ public class KartGiris extends JDialog {
 			txtKartCvv.setEnabled(true);
 	}
 	
-	private void KartGiris() {
-		MongoClient mongoClient = MongoClients.create();
+	private void KartGir() {
+	
+        MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
 		Document query = new Document();
         query.append("musterino", txtMustNo.getText());
-        Document updateFields = new Document();
+
         Document kart = new Document();
         kart.put("bağlıhesap", txtAnaHesap.getText());
         kart.put("kartgrubu", cbKartGrubu.getSelectedItem());
@@ -175,12 +182,16 @@ public class KartGiris extends JDialog {
         kart.put("kartno", txtKartNo.getText());
         kart.put("kartgecerliliktarihi", ftxtKartGecerlilikTarihi.getText());
         kart.put("kartccv", txtKartCvv.getText());
-        updateFields.append("kart", kart);
-        			
+    	
+		FindIterable<Document> iterable = MusteriCollection.find(query);
+		for (Document d : iterable) {
+			kartlar = (ArrayList<Document>) d.get("kartlar");
+		}
+		kartlar.add(kart);
         Document setQuery = new Document();
-        setQuery.append("$set", updateFields);
+        setQuery.append("$set", new Document("kartlar",kartlar));
         MusteriCollection.updateOne(query, setQuery);
-		
+				
 	}
 	
 	private void KartTemizle() {
@@ -605,7 +616,7 @@ public class KartGiris extends JDialog {
 				btnKartGiris.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!txtKartNo.getText().equals("") && !ftxtKartGecerlilikTarihi.getText().equals("") && !txtKartCvv.getText().equals("")) {
-							KartGiris();
+							KartGir();
 						}else {
 							JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
 						}
@@ -625,7 +636,7 @@ public class KartGiris extends JDialog {
 				btnYeniKart.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!txtKartNo.getText().equals("") && !ftxtKartGecerlilikTarihi.getText().equals("") && !txtKartCvv.getText().equals("")) {
-							KartGiris();
+							KartGir();
 							KartTemizle();
 						}else {
 							JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
@@ -658,6 +669,12 @@ public class KartGiris extends JDialog {
 				txtAnaHesap.setColumns(10);
 				
 				btnHesaplar = new JButton("Hesaplar");
+				btnHesaplar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						HesaplarDialog anahd = new HesaplarDialog(txtMustNo.getText());
+						anahd.setVisible(true);
+					}
+				});
 				btnHesaplar.setEnabled(false);
 				
 				JLabel lblKartGrubu = new JLabel("Kart Grubu:");
@@ -766,5 +783,22 @@ public class KartGiris extends JDialog {
 				panel_2.setLayout(gl_panel_2);
 			}
 		}
+
+	public JTextField getTxtAnaHesap() {
+		return txtAnaHesap;
+	}
+
+	public void setTxtAnaHesap(JTextField txtAnaHesap) {
+		this.txtAnaHesap = txtAnaHesap;
+	}
+
+	public JTextField getTxtMustNo() {
+		return txtMustNo;
+	}
+
+	public void setTxtMustNo(JTextField txtMustNo) {
+		this.txtMustNo = txtMustNo;
+	}
+
 	}
 

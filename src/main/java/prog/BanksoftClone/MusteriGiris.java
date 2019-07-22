@@ -16,6 +16,9 @@ import javax.swing.JFormattedTextField;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.poi.EmptyFileException;
 import org.bson.Document;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -23,6 +26,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -43,6 +47,8 @@ public class MusteriGiris extends JDialog {
 	private JTable table;
 	private JComboBox<Object> cbSubeKodu;
 	DefaultTableModel model = new DefaultTableModel();
+	private JButton btnGiris;
+	
 	
 	/**
 	 * Launch the application.
@@ -57,11 +63,32 @@ public class MusteriGiris extends JDialog {
 		}
 	}
 	
-	private void giris() {
+	public void giris() throws Exception {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
 		Document musteri = new Document();
+		ArrayList<Document> hesaplar = new ArrayList<Document>();
+		ArrayList<Document> kartlar = new ArrayList<Document>();
+		if(txtMusteriAdi.getText().equals("")) {
+				throw new Exception("Lütfen Müşteri Adı Girin");
+		}else if(txtMusteriSoyadı.getText().equals("")){		
+				throw new Exception("Lütfen Müşteri Soyadı Girin");		
+		}else if(txtMusteriNo.getText().equals("")){			
+				throw new Exception("Lütfen Müşteri Numarası Girin");		
+		}else if(txtTcNum.getText().equals("")){		
+				throw new Exception("Lütfen Müşteri TC Numarası Girin");		
+		}else if(txtTelefon.getText().equals("")){			
+				throw new Exception("Lütfen Müşteri Telefonu Girin");			
+		}else if(ftxtDogumTarihi.getText().equals("")){			
+				throw new Exception("Lütfen Müşteri Doğum Tarihi Girin");			
+		}else if(txtEposta.getText().equals("")){
+				throw new Exception("Lütfen Müşteri Epostası Girin");			
+		}else if(txtDogumYeri.getText().equals("")){			
+				throw new Exception("Lütfen Müşteri Dopum Yeri Girin");			
+		}else if(txtBabaAdi.getText().equals("")){			
+				throw new Exception("Lütfen Müşteri Baba Adı Girin");		
+		}
 		musteri.append("isim",txtMusteriAdi.getText());
 		musteri.append("soyisim", txtMusteriSoyadı.getText());
 		musteri.append("tcno", txtTcNum.getText());
@@ -72,6 +99,9 @@ public class MusteriGiris extends JDialog {
 		musteri.append("e-posta", txtEposta.getText());
 		musteri.append("musterino", txtMusteriNo.getText());
 		musteri.append("subekodu", cbSubeKodu.getSelectedItem());
+		musteri.append("hesaplar", hesaplar);
+		musteri.append("kartlar", kartlar);
+		
 		MusteriCollection.insertOne(musteri);
 		
 		model.addRow(new Object[]{txtMusteriAdi.getText(),txtMusteriSoyadı.getText(),txtTcNum.getText(),
@@ -80,7 +110,7 @@ public class MusteriGiris extends JDialog {
 								  cbSubeKodu.getSelectedItem()});
 	}
 	
-	private void temizle() {
+	public void temizle() {
 		txtMusteriAdi.setText("");
 		txtMusteriSoyadı.setText("");
 		txtTcNum.setText("");
@@ -111,16 +141,16 @@ public class MusteriGiris extends JDialog {
 			pnlButtons.setToolTipText("");
 			contentPanel.add(pnlButtons, BorderLayout.SOUTH);
 			
-			JButton btnGiris = new JButton("Giriş");
+			btnGiris = new JButton("Giriş");
 			btnGiris.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(!txtMusteriAdi.getText().equals("") && !txtMusteriSoyadı.getText().equals("") && !txtMusteriNo.getText().equals("") &&
-							   !txtTcNum.getText().equals("") && !txtTelefon.getText().equals("") && !ftxtDogumTarihi.getText().equals("") &&
-							   !txtBabaAdi.getText().equals("") && !txtDogumYeri.getText().equals("") && txtEposta.getText().equals("")) {
-						giris();		
-					}else {
-						JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
-					}
+					
+					 try {
+						giris();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}						
 				}
 			});
 			pnlButtons.add(btnGiris);
@@ -136,14 +166,13 @@ public class MusteriGiris extends JDialog {
 			JButton btnYeniMusteri = new JButton("Yeni Müşteri");
 			btnYeniMusteri.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(!txtMusteriAdi.getText().equals("") && !txtMusteriSoyadı.getText().equals("") && !txtMusteriNo.getText().equals("") &&
-					   !txtTcNum.getText().equals("") && !txtTelefon.getText().equals("") && !ftxtDogumTarihi.getText().equals("") &&
-					   !txtBabaAdi.getText().equals("") && !txtDogumYeri.getText().equals("") && txtEposta.getText().equals("")) {
-						giris();
+						try {
+							giris();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						temizle();	
-					}else {
-						JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
-					}
 				}
 			});
 			pnlButtons.add(btnYeniMusteri);
@@ -334,5 +363,91 @@ public class MusteriGiris extends JDialog {
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
+		
+		
 	}
+	
+	
+	
+	
+	public JButton getBtnGiris() {
+		return btnGiris;
+	}
+
+	public JTextField getTxtMusteriAdi() {
+		return txtMusteriAdi;
+	}
+
+	public void setTxtMusteriAdi(JTextField txtMusteriAdi) {
+		this.txtMusteriAdi = txtMusteriAdi;
+	}
+
+	public JTextField getTxtMusteriSoyadı() {
+		return txtMusteriSoyadı;
+	}
+
+	public void setTxtMusteriSoyadı(JTextField txtMusteriSoyadı) {
+		this.txtMusteriSoyadı = txtMusteriSoyadı;
+	}
+
+	public JTextField getTxtTcNum() {
+		return txtTcNum;
+	}
+
+	public void setTxtTcNum(JTextField txtTcNum) {
+		this.txtTcNum = txtTcNum;
+	}
+
+	public JTextField getTxtTelefon() {
+		return txtTelefon;
+	}
+
+	public void setTxtTelefon(JTextField txtTelefon) {
+		this.txtTelefon = txtTelefon;
+	}
+
+	public JTextField getTxtBabaAdi() {
+		return txtBabaAdi;
+	}
+
+	public void setTxtBabaAdi(JTextField txtBabaAdi) {
+		this.txtBabaAdi = txtBabaAdi;
+	}
+
+	public JTextField getTxtDogumYeri() {
+		return txtDogumYeri;
+	}
+
+	public void setTxtDogumYeri(JTextField txtDogumYeri) {
+		this.txtDogumYeri = txtDogumYeri;
+	}
+
+	public JTextField getTxtEposta() {
+		return txtEposta;
+	}
+
+	public void setTxtEposta(JTextField txtEposta) {
+		this.txtEposta = txtEposta;
+	}
+
+	public JTextField getTxtMusteriNo() {
+		return txtMusteriNo;
+	}
+
+	public void setTxtMusteriNo(JTextField txtMusteriNo) {
+		this.txtMusteriNo = txtMusteriNo;
+	}
+
+	public JFormattedTextField getFtxtDogumTarihi() {
+		return ftxtDogumTarihi;
+	}
+
+	public void setFtxtDogumTarihi(JFormattedTextField ftxtDogumTarihi) {
+		this.ftxtDogumTarihi = ftxtDogumTarihi;
+	}
+
+	public void setBtnGiris(JButton btnGiris) {
+		this.btnGiris = btnGiris;
+	}
+
 }

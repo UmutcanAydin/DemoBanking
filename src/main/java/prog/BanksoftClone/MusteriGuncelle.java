@@ -17,6 +17,8 @@ import javax.swing.JFormattedTextField;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
@@ -82,11 +84,12 @@ public class MusteriGuncelle extends JDialog {
 		}
 	}
 	
-	private void bul() {
+	public void bul() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
 		BasicDBObject whereQuery = new BasicDBObject();
+		
 		if(rdbtnMusteri.isSelected()) {
 			whereQuery.put("musterino", txtMusteriBul.getText());
 			
@@ -97,7 +100,10 @@ public class MusteriGuncelle extends JDialog {
 			whereQuery.put("subekodu", cbSubeKoduBul.getSelectedItem());
 		}
 		
+		
+		
 		FindIterable<Document> iterable = MusteriCollection.find(whereQuery);
+		
 		for (Document d : iterable) {
 			isim = (String) d.get("isim");
 			soyisim = (String) d.get("soyisim");
@@ -111,11 +117,10 @@ public class MusteriGuncelle extends JDialog {
 			subekodu = (String) d.get("subekodu");
 			model.addRow(new Object[]{isim,soyisim,tcno,telefon,babaadi,dogumyeri,dogumtarihi,eposta,musterino,subekodu});
 		}
-		
 	   
 	}
 	
-	private void guncelle() {
+	public void guncelle() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
@@ -147,7 +152,7 @@ public class MusteriGuncelle extends JDialog {
         model.setValueAt(cbSubeKodu.getSelectedItem(), table.getSelectedRow(), 9);
 	}
 	
-	private void temizle() {
+	public void temizle() {
 		txtMusteriAdi.setText("");
 		txtMusteriSoyadı.setText("");
 		txtTcNum.setText("");
@@ -177,14 +182,8 @@ public class MusteriGuncelle extends JDialog {
 			
 			JButton btnGuncelle = new JButton("Güncelle");
 			btnGuncelle.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if(!txtMusteriAdi.getText().equals("") && !txtMusteriSoyadı.getText().equals("") && !txtMusteriNo.getText().equals("") &&
-					   !txtTcNum.getText().equals("") && !txtTelefon.getText().equals("") && !ftxtDogumTarihi.getText().equals("") &&
-					   !txtBabaAdi.getText().equals("") && !txtDogumYeri.getText().equals("") && txtEposta.getText().equals("")) {
-						guncelle();	
-					}else {
-						JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
-					}
+				public void actionPerformed(ActionEvent e) {					
+						guncelle();					
 				}
 			});
 			pnlButtons.add(btnGuncelle);
@@ -328,13 +327,10 @@ public class MusteriGuncelle extends JDialog {
 		JButton btnBul = new JButton("Bul");
 		btnBul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!txtMusteriNo.getText().equals("")) {
 					DefaultTableModel tm = (DefaultTableModel) table.getModel();
 					tm.setRowCount(0);
 					bul();
-				}else {
-					JOptionPane.showMessageDialog(null, "Lütfen Bir Müşteri Numarası Giriniz.");
-				}
+				
 			}
 		});
 		
