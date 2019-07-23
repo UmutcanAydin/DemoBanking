@@ -157,7 +157,7 @@ public class MusteriGuncelle extends JDialog {
 			throw new Exception("Lütfen Müşteri Dopum Yeri Girin");			
         }else if(txtBabaAdi.getText().equals("")){			
 			throw new Exception("Lütfen Müşteri Baba Adı Girin");		
-        }
+        }else {
         MusteriCollection.updateOne(query, setQuery);
         model.setValueAt(txtMusteriAdi.getText(), table.getSelectedRow(), 0);
         model.setValueAt(txtMusteriSoyadı.getText(), table.getSelectedRow(), 1);
@@ -169,8 +169,11 @@ public class MusteriGuncelle extends JDialog {
         model.setValueAt(txtEposta.getText(), table.getSelectedRow(), 7);
         model.setValueAt(txtMusteriNo.getText(), table.getSelectedRow(), 8);
         model.setValueAt(cbSubeKodu.getSelectedItem(), table.getSelectedRow(), 9);
+        }
 	}
 	
+	
+
 	public void temizle() {
 		txtMusteriAdi.setText("");
 		txtMusteriSoyadı.setText("");
@@ -562,5 +565,127 @@ public class MusteriGuncelle extends JDialog {
 			}
 			
 		});
+		
+		
+	}
+	
+	public JTextField getTxtMusteriAdi() {
+		return txtMusteriAdi;
+	}
+
+	public void setTxtMusteriAdi(JTextField txtMusteriAdi) {
+		this.txtMusteriAdi = txtMusteriAdi;
+	}
+
+	public JTextField getTxtMusteriSoyadı() {
+		return txtMusteriSoyadı;
+	}
+
+	public void setTxtMusteriSoyadı(JTextField txtMusteriSoyadı) {
+		this.txtMusteriSoyadı = txtMusteriSoyadı;
+	}
+
+	public JTextField getTxtTcNum() {
+		return txtTcNum;
+	}
+
+	public void setTxtTcNum(JTextField txtTcNum) {
+		this.txtTcNum = txtTcNum;
+	}
+
+	public JTextField getTxtTelefon() {
+		return txtTelefon;
+	}
+
+	public void setTxtTelefon(JTextField txtTelefon) {
+		this.txtTelefon = txtTelefon;
+	}
+
+	public JTextField getTxtBabaAdi() {
+		return txtBabaAdi;
+	}
+
+	public void setTxtBabaAdi(JTextField txtBabaAdi) {
+		this.txtBabaAdi = txtBabaAdi;
+	}
+
+	public JTextField getTxtDogumYeri() {
+		return txtDogumYeri;
+	}
+
+	public void setTxtDogumYeri(JTextField txtDogumYeri) {
+		this.txtDogumYeri = txtDogumYeri;
+	}
+
+	public JTextField getTxtEposta() {
+		return txtEposta;
+	}
+
+	public void setTxtEposta(JTextField txtEposta) {
+		this.txtEposta = txtEposta;
+	}
+
+	public JTextField getTxtMusteriNo() {
+		return txtMusteriNo;
+	}
+
+	public void setTxtMusteriNo(JTextField txtMusteriNo) {
+		this.txtMusteriNo = txtMusteriNo;
+	}
+
+	public JFormattedTextField getFtxtDogumTarihi() {
+		return ftxtDogumTarihi;
+	}
+
+	public void setFtxtDogumTarihi(JFormattedTextField ftxtDogumTarihi) {
+		this.ftxtDogumTarihi = ftxtDogumTarihi;
+	}
+
+	public JTextField getTxtMusteriBul() {
+		return txtMusteriBul;
+	}
+
+	public void setTxtMusteriBul(JTextField txtMusteriBul) {
+		this.txtMusteriBul = txtMusteriBul;
+	}
+
+	public JRadioButton getRdbtnTckn() {
+		return rdbtnTckn;
+	}
+
+	public void setRdbtnTckn(JRadioButton rdbtnTckn) {
+		this.rdbtnTckn = rdbtnTckn;
+	}
+
+	public JRadioButton getRdbtnMusteri() {
+		return rdbtnMusteri;
+	}
+
+	public void setRdbtnMusteri(JRadioButton rdbtnMusteri) {
+		this.rdbtnMusteri = rdbtnMusteri;
+	}
+
+	public JRadioButton getRdbtnSubeKodu() {
+		return rdbtnSubeKodu;
+	}
+
+	public void setRdbtnSubeKodu(JRadioButton rdbtnSubeKodu) {
+		this.rdbtnSubeKodu = rdbtnSubeKodu;
+	}
+
+	public JComboBox<Object> getCbSubeKodu() {
+		return cbSubeKodu;
+	}
+
+	public void setCbSubeKodu(JComboBox<Object> cbSubeKodu) {
+		this.cbSubeKodu = cbSubeKodu;
+	}
+
+	public JComboBox<Object> getCbSubeKoduBul() {
+		return cbSubeKoduBul;
+	}
+
+	public void setCbSubeKoduBul(JComboBox<Object> cbSubeKoduBul) {
+		this.cbSubeKoduBul = cbSubeKoduBul;
 	}
 }

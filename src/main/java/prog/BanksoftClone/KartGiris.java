@@ -85,7 +85,7 @@ public class KartGiris extends JDialog {
 		}
 	}
 	
-	private void HesapBul() {
+	public void HesapBul() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
@@ -108,7 +108,7 @@ public class KartGiris extends JDialog {
 		cbDovizCinsi.setEnabled(true);
 	}
 	
-	private void HesapGiris() {
+	public void HesapGiris() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
@@ -132,7 +132,7 @@ public class KartGiris extends JDialog {
 		model2.addRow(new Object[]{txtHesapNo.getText(),cbHesapSubesi.getSelectedItem(),cbDovizCinsi.getSelectedItem()});
 	}
 	
-	private void KartBul() {
+	public void KartBul() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
@@ -167,7 +167,7 @@ public class KartGiris extends JDialog {
 			txtKartCvv.setEnabled(true);
 	}
 	
-	private void KartGir() {
+	public void KartGir() {
 	
         MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
@@ -194,7 +194,7 @@ public class KartGiris extends JDialog {
 				
 	}
 	
-	private void KartTemizle() {
+	public void KartTemizle() {
 		txtMustGetir.setText("");
 		txtAd.setText("");
 		txtSoyad.setText("");
@@ -221,7 +221,7 @@ public class KartGiris extends JDialog {
 		txtKartCvv.setEnabled(false);
 	}
 	
-	private void HesapTemizle() {
+	public void HesapTemizle() {
 		txtHesapNo.setText("");
 		cbHesapSubesi.setSelectedIndex(0);
 		cbDovizCinsi.setSelectedIndex(0);
@@ -230,7 +230,7 @@ public class KartGiris extends JDialog {
 		cbDovizCinsi.setEnabled(false);
 	}
 	
-	private void subeidal() {
+	public void subeidal() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");

@@ -58,6 +58,7 @@ public class MusteriGiris extends JDialog {
 			MusteriGiris dialog = new MusteriGiris();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,7 +89,7 @@ public class MusteriGiris extends JDialog {
 				throw new Exception("Lütfen Müşteri Dopum Yeri Girin");			
 		}else if(txtBabaAdi.getText().equals("")){			
 				throw new Exception("Lütfen Müşteri Baba Adı Girin");		
-		}
+		}else {
 		musteri.append("isim",txtMusteriAdi.getText());
 		musteri.append("soyisim", txtMusteriSoyadı.getText());
 		musteri.append("tcno", txtTcNum.getText());
@@ -108,6 +109,7 @@ public class MusteriGiris extends JDialog {
 								  txtTelefon.getText(),txtBabaAdi.getText(),txtDogumYeri.getText(),
 								  ftxtDogumTarihi.getText(),txtEposta.getText(),txtMusteriNo.getText(),
 								  cbSubeKodu.getSelectedItem()});
+		}
 	}
 	
 	public void temizle() {
