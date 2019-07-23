@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -17,10 +16,7 @@ import javax.swing.JFormattedTextField;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.bson.Document;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -38,6 +34,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ListSelectionModel;
 
 
+@SuppressWarnings("serial")
 public class MusteriGuncelle extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -72,7 +69,7 @@ public class MusteriGuncelle extends JDialog {
 	private Object objectId;
 
 	/**
-	 * Launch the application.
+	 * Aplikasyonu çalıştırır.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -84,6 +81,10 @@ public class MusteriGuncelle extends JDialog {
 		}
 	}
 	
+	/**
+	 * Müşteri numarası,TC numarası veya Şube Kodu kullanarak veri tabanından müşteri bilgisi çeker.
+	 * 
+	 */
 	public void bul() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
@@ -120,6 +121,10 @@ public class MusteriGuncelle extends JDialog {
 	   
 	}
 	
+	/**
+	 * Seçili müşteri bilgisini günceller.
+	 * 
+	 */
 	public void guncelle() throws Exception {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
@@ -173,7 +178,9 @@ public class MusteriGuncelle extends JDialog {
 	}
 	
 	
-
+	/**
+	 * Müşteri girdisini temizler. 
+	 */
 	public void temizle() {
 		txtMusteriAdi.setText("");
 		txtMusteriSoyadı.setText("");
@@ -188,7 +195,7 @@ public class MusteriGuncelle extends JDialog {
 	
 	
 	/**
-	 * Create the dialog.
+	 * Dialogu yaratır.
 	 */
 	public MusteriGuncelle() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -568,124 +575,5 @@ public class MusteriGuncelle extends JDialog {
 		
 		
 	}
-	
-	public JTextField getTxtMusteriAdi() {
-		return txtMusteriAdi;
-	}
 
-	public void setTxtMusteriAdi(JTextField txtMusteriAdi) {
-		this.txtMusteriAdi = txtMusteriAdi;
-	}
-
-	public JTextField getTxtMusteriSoyadı() {
-		return txtMusteriSoyadı;
-	}
-
-	public void setTxtMusteriSoyadı(JTextField txtMusteriSoyadı) {
-		this.txtMusteriSoyadı = txtMusteriSoyadı;
-	}
-
-	public JTextField getTxtTcNum() {
-		return txtTcNum;
-	}
-
-	public void setTxtTcNum(JTextField txtTcNum) {
-		this.txtTcNum = txtTcNum;
-	}
-
-	public JTextField getTxtTelefon() {
-		return txtTelefon;
-	}
-
-	public void setTxtTelefon(JTextField txtTelefon) {
-		this.txtTelefon = txtTelefon;
-	}
-
-	public JTextField getTxtBabaAdi() {
-		return txtBabaAdi;
-	}
-
-	public void setTxtBabaAdi(JTextField txtBabaAdi) {
-		this.txtBabaAdi = txtBabaAdi;
-	}
-
-	public JTextField getTxtDogumYeri() {
-		return txtDogumYeri;
-	}
-
-	public void setTxtDogumYeri(JTextField txtDogumYeri) {
-		this.txtDogumYeri = txtDogumYeri;
-	}
-
-	public JTextField getTxtEposta() {
-		return txtEposta;
-	}
-
-	public void setTxtEposta(JTextField txtEposta) {
-		this.txtEposta = txtEposta;
-	}
-
-	public JTextField getTxtMusteriNo() {
-		return txtMusteriNo;
-	}
-
-	public void setTxtMusteriNo(JTextField txtMusteriNo) {
-		this.txtMusteriNo = txtMusteriNo;
-	}
-
-	public JFormattedTextField getFtxtDogumTarihi() {
-		return ftxtDogumTarihi;
-	}
-
-	public void setFtxtDogumTarihi(JFormattedTextField ftxtDogumTarihi) {
-		this.ftxtDogumTarihi = ftxtDogumTarihi;
-	}
-
-	public JTextField getTxtMusteriBul() {
-		return txtMusteriBul;
-	}
-
-	public void setTxtMusteriBul(JTextField txtMusteriBul) {
-		this.txtMusteriBul = txtMusteriBul;
-	}
-
-	public JRadioButton getRdbtnTckn() {
-		return rdbtnTckn;
-	}
-
-	public void setRdbtnTckn(JRadioButton rdbtnTckn) {
-		this.rdbtnTckn = rdbtnTckn;
-	}
-
-	public JRadioButton getRdbtnMusteri() {
-		return rdbtnMusteri;
-	}
-
-	public void setRdbtnMusteri(JRadioButton rdbtnMusteri) {
-		this.rdbtnMusteri = rdbtnMusteri;
-	}
-
-	public JRadioButton getRdbtnSubeKodu() {
-		return rdbtnSubeKodu;
-	}
-
-	public void setRdbtnSubeKodu(JRadioButton rdbtnSubeKodu) {
-		this.rdbtnSubeKodu = rdbtnSubeKodu;
-	}
-
-	public JComboBox<Object> getCbSubeKodu() {
-		return cbSubeKodu;
-	}
-
-	public void setCbSubeKodu(JComboBox<Object> cbSubeKodu) {
-		this.cbSubeKodu = cbSubeKodu;
-	}
-
-	public JComboBox<Object> getCbSubeKoduBul() {
-		return cbSubeKoduBul;
-	}
-
-	public void setCbSubeKoduBul(JComboBox<Object> cbSubeKoduBul) {
-		this.cbSubeKoduBul = cbSubeKoduBul;
-	}
 }

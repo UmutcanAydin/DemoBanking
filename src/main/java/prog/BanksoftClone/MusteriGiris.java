@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -16,9 +15,6 @@ import javax.swing.JFormattedTextField;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.poi.EmptyFileException;
 import org.bson.Document;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -32,6 +28,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 
+@SuppressWarnings("serial")
 public class MusteriGiris extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -51,7 +48,7 @@ public class MusteriGiris extends JDialog {
 	
 	
 	/**
-	 * Launch the application.
+	 * Aplikasyonu çalıştırır.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -64,6 +61,10 @@ public class MusteriGiris extends JDialog {
 		}
 	}
 	
+	/**
+	 * Veri tabanına müşteri girişi yapar.
+	 * @throws Exception
+	 */
 	public void giris() throws Exception {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
@@ -112,6 +113,9 @@ public class MusteriGiris extends JDialog {
 		}
 	}
 	
+	/**
+	 * Müşteri girdisini temizler.
+	 */
 	public void temizle() {
 		txtMusteriAdi.setText("");
 		txtMusteriSoyadı.setText("");
@@ -125,11 +129,8 @@ public class MusteriGiris extends JDialog {
 		cbSubeKodu.setSelectedIndex(0);
 	}
 	
-	private void exceleyaz() {
-		
-	}
 	/**
-	 * Create the dialog.
+	 * Dialogu oluşturur.
 	 */
 	public MusteriGiris() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -369,87 +370,5 @@ public class MusteriGiris extends JDialog {
 		
 	}
 	
-	
-	
-	
-	public JButton getBtnGiris() {
-		return btnGiris;
-	}
-
-	public JTextField getTxtMusteriAdi() {
-		return txtMusteriAdi;
-	}
-
-	public void setTxtMusteriAdi(JTextField txtMusteriAdi) {
-		this.txtMusteriAdi = txtMusteriAdi;
-	}
-
-	public JTextField getTxtMusteriSoyadı() {
-		return txtMusteriSoyadı;
-	}
-
-	public void setTxtMusteriSoyadı(JTextField txtMusteriSoyadı) {
-		this.txtMusteriSoyadı = txtMusteriSoyadı;
-	}
-
-	public JTextField getTxtTcNum() {
-		return txtTcNum;
-	}
-
-	public void setTxtTcNum(JTextField txtTcNum) {
-		this.txtTcNum = txtTcNum;
-	}
-
-	public JTextField getTxtTelefon() {
-		return txtTelefon;
-	}
-
-	public void setTxtTelefon(JTextField txtTelefon) {
-		this.txtTelefon = txtTelefon;
-	}
-
-	public JTextField getTxtBabaAdi() {
-		return txtBabaAdi;
-	}
-
-	public void setTxtBabaAdi(JTextField txtBabaAdi) {
-		this.txtBabaAdi = txtBabaAdi;
-	}
-
-	public JTextField getTxtDogumYeri() {
-		return txtDogumYeri;
-	}
-
-	public void setTxtDogumYeri(JTextField txtDogumYeri) {
-		this.txtDogumYeri = txtDogumYeri;
-	}
-
-	public JTextField getTxtEposta() {
-		return txtEposta;
-	}
-
-	public void setTxtEposta(JTextField txtEposta) {
-		this.txtEposta = txtEposta;
-	}
-
-	public JTextField getTxtMusteriNo() {
-		return txtMusteriNo;
-	}
-
-	public void setTxtMusteriNo(JTextField txtMusteriNo) {
-		this.txtMusteriNo = txtMusteriNo;
-	}
-
-	public JFormattedTextField getFtxtDogumTarihi() {
-		return ftxtDogumTarihi;
-	}
-
-	public void setFtxtDogumTarihi(JFormattedTextField ftxtDogumTarihi) {
-		this.ftxtDogumTarihi = ftxtDogumTarihi;
-	}
-
-	public void setBtnGiris(JButton btnGiris) {
-		this.btnGiris = btnGiris;
-	}
 
 }

@@ -13,6 +13,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.Color;
 
+/**
+ * @author Umutcan Aydin
+ * @since  2019-07-23
+ */
+
+@SuppressWarnings("serial")
 public class Mainscreen extends JFrame {
 
 	private JPanel contentPane;
@@ -31,8 +37,9 @@ public class Mainscreen extends JFrame {
 	private JMenuItem mntmCikis;
 	private JMenuItem mntmHakkinda;
 	private JMenuItem mntmKullaniciLogu;
+	
 	/**
-	 * Launch the application.
+	 * Aplikasyonu Çalıştırır.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -48,7 +55,8 @@ public class Mainscreen extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Aplikasyon ana ekranı.
+	 * 
 	 */
 	public Mainscreen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -125,8 +133,7 @@ public class Mainscreen extends JFrame {
 		mntmCikis.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-				
+				System.exit(0);				
 			}
 		});
 		

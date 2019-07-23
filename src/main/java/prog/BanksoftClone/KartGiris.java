@@ -36,6 +36,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings("serial")
 public class KartGiris extends JDialog {
 	private JTextField txtMustGetir;
 	private JTextField txtSoyad;
@@ -54,12 +55,10 @@ public class KartGiris extends JDialog {
 	private String dogumtarihi;
 	private String subekodu;
 	private String tcno;
-	private Document hesapp;
-	private String hesapNo;
 	private JFormattedTextField ftxtDogumTarihi;
 	private JFormattedTextField ftxtKartGecerlilikTarihi;
 	private JButton btnHesaplar;
-	private JComboBox cbKartGrubu;
+	private JComboBox<Object> cbKartGrubu;
 	private JComboBox<Object> cbSube;
 	private JTextField txtHesapMustGetir;
 	private JTable table;
@@ -67,13 +66,14 @@ public class KartGiris extends JDialog {
 	private JTextField txtHesapNo;
 	private DefaultTableModel model = new DefaultTableModel();
 	private DefaultTableModel model2 = new DefaultTableModel();
-	private JComboBox cbDovizCinsi;
-	private JComboBox cbHesapSubesi;
+	private JComboBox<Object> cbDovizCinsi;
+	private JComboBox<Object> cbHesapSubesi;
 	private JTabbedPane tabbedPane;
 	private ArrayList<Document> hesaplar;
 	private ArrayList<Document> kartlar;
+	
 	/**
-	 * Launch the application.
+	 * Aplikasyonu çalıştırır.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -85,6 +85,9 @@ public class KartGiris extends JDialog {
 		}
 	}
 	
+	/**
+	 * Müşteri numarası kullanarak veri tabanından müşteri bilgisi getirir.
+	 */
 	public void HesapBul() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
@@ -108,6 +111,10 @@ public class KartGiris extends JDialog {
 		cbDovizCinsi.setEnabled(true);
 	}
 	
+	/**
+	 * Veri tabanına hesap bilgisi girişi yapar.
+	 */
+	@SuppressWarnings("unchecked")
 	public void HesapGiris() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
@@ -132,6 +139,10 @@ public class KartGiris extends JDialog {
 		model2.addRow(new Object[]{txtHesapNo.getText(),cbHesapSubesi.getSelectedItem(),cbDovizCinsi.getSelectedItem()});
 	}
 	
+
+	/**
+	 * Müşteri numarası kullanarak veri tabanından müşteri bilgisi getirir.
+	 */
 	public void KartBul() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
@@ -167,11 +178,26 @@ public class KartGiris extends JDialog {
 			txtKartCvv.setEnabled(true);
 	}
 	
-	public void KartGir() {
+	/**
+	 * Veri tabanına kart bilgisi girişi yapar.
+	 * @throws Exception 
+	 */
+	@SuppressWarnings("unchecked")
+	public void KartGir() throws Exception {
 	
         MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
 		MongoCollection<Document> MusteriCollection = database.getCollection("Müşteriler");
+		if(txtAnaHesap.getText().equals("")) {
+			throw new Exception("Lütfen Bir Hesap Numarası Girin.");
+		}else if(txtKartNo.getText().equals("")) {
+			throw new Exception("Lütfen Bir Kart Numarası Girin.");
+		}
+		else if(txtKartCvv.getText().equals("")) {
+			throw new Exception("Lütfen Bir CCV Numarası Girin.");
+		}else if(ftxtKartGecerlilikTarihi.getText().equals("")) {
+			throw new Exception("Lütfen Bir Kart Geçerlilik Tarihi Girin.");
+		}else {
 		Document query = new Document();
         query.append("musterino", txtMustNo.getText());
 
@@ -191,9 +217,12 @@ public class KartGiris extends JDialog {
         Document setQuery = new Document();
         setQuery.append("$set", new Document("kartlar",kartlar));
         MusteriCollection.updateOne(query, setQuery);
-				
+		}	
 	}
 	
+	/**
+	 * Kart bilgilerini temizler.
+	 */
 	public void KartTemizle() {
 		txtMustGetir.setText("");
 		txtAd.setText("");
@@ -221,6 +250,9 @@ public class KartGiris extends JDialog {
 		txtKartCvv.setEnabled(false);
 	}
 	
+	/**
+	 * Hesap bilgilerini temizler.
+	 */
 	public void HesapTemizle() {
 		txtHesapNo.setText("");
 		cbHesapSubesi.setSelectedIndex(0);
@@ -230,6 +262,9 @@ public class KartGiris extends JDialog {
 		cbDovizCinsi.setEnabled(false);
 	}
 	
+	/**
+	 * Random() yardımıyla otomatik hesap numarası oluşturur.
+	 */
 	public void subeidal() {
 		MongoClient mongoClient = MongoClients.create();
 		MongoDatabase database = mongoClient.getDatabase("Banksoft");
@@ -250,8 +285,9 @@ public class KartGiris extends JDialog {
 	    String number = formatted+"-"+random;
 		txtHesapNo.setText(number);
 	}
+	
 	/**
-	 * Create the dialog.
+	 * Dialogu oluşturur.
 	 */
 	public KartGiris() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -382,8 +418,8 @@ public class KartGiris extends JDialog {
 				JLabel lblHesapSubesi = new JLabel("Hesap Şubesi:");
 				lblHesapSubesi.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				
-				cbHesapSubesi = new JComboBox();
-				cbHesapSubesi.setModel(new DefaultComboBoxModel(new String[] {"Sube1", "Sube2", "Sube3", "Sube4"}));
+				cbHesapSubesi = new JComboBox<Object>();
+				cbHesapSubesi.setModel(new DefaultComboBoxModel<Object>(new String[] {"Sube1", "Sube2", "Sube3", "Sube4"}));
 				cbHesapSubesi.setSelectedIndex(0);
 				cbHesapSubesi.setEnabled(false);
 				cbHesapSubesi.setEditable(false);
@@ -391,8 +427,8 @@ public class KartGiris extends JDialog {
 				JLabel lblDovizCinsi = new JLabel("Döviz Cinsi:");
 				lblDovizCinsi.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				
-				cbDovizCinsi = new JComboBox();
-				cbDovizCinsi.setModel(new DefaultComboBoxModel(new String[] {"TL", "DOLAR", "EURO"}));
+				cbDovizCinsi = new JComboBox<Object>();
+				cbDovizCinsi.setModel(new DefaultComboBoxModel<Object>(new String[] {"TL", "DOLAR", "EURO"}));
 				cbDovizCinsi.setSelectedIndex(0);
 				cbDovizCinsi.setEnabled(false);
 				cbDovizCinsi.setEditable(false);
@@ -615,11 +651,12 @@ public class KartGiris extends JDialog {
 				JButton btnKartGiris = new JButton("Giriş");
 				btnKartGiris.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(!txtKartNo.getText().equals("") && !ftxtKartGecerlilikTarihi.getText().equals("") && !txtKartCvv.getText().equals("")) {
-							KartGir();
-						}else {
-							JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
-						}
+							try {
+								KartGir();
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 					}
 				});
 				panel_1.add(btnKartGiris);
@@ -636,8 +673,13 @@ public class KartGiris extends JDialog {
 				btnYeniKart.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!txtKartNo.getText().equals("") && !ftxtKartGecerlilikTarihi.getText().equals("") && !txtKartCvv.getText().equals("")) {
-							KartGir();
-							KartTemizle();
+							try {
+								KartGir();
+								KartTemizle();
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}						
 						}else {
 							JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
 						}
@@ -673,6 +715,9 @@ public class KartGiris extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						HesaplarDialog anahd = new HesaplarDialog(txtMustNo.getText());
 						anahd.setVisible(true);
+						if(anahd.isVisible() == false) {
+							txtAnaHesap.setText(anahd.getHesapno());
+						}
 					}
 				});
 				btnHesaplar.setEnabled(false);
@@ -680,15 +725,15 @@ public class KartGiris extends JDialog {
 				JLabel lblKartGrubu = new JLabel("Kart Grubu:");
 				lblKartGrubu.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				
-				cbKartGrubu = new JComboBox();
+				cbKartGrubu = new JComboBox<Object>();
 				cbKartGrubu.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				cbKartGrubu.setEnabled(false);
-				cbKartGrubu.setModel(new DefaultComboBoxModel(new String[] {"Troy", "Platin", "Visa Electron", "Mastercard maestro"}));
+				cbKartGrubu.setModel(new DefaultComboBoxModel<Object>(new String[] {"Troy", "Platin", "Visa Electron", "Mastercard maestro"}));
 				
 				cbSube = new JComboBox<Object>();
 				cbSube.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				cbSube.setEnabled(false);
-				cbSube.setModel(new DefaultComboBoxModel(new String[] {"Sube1", "Sube2", "Sube3", "Sube4"}));
+				cbSube.setModel(new DefaultComboBoxModel<Object>(new String[] {"Sube1", "Sube2", "Sube3", "Sube4"}));
 				
 				JLabel lblSubeKodu = new JLabel("Şube Kodu:");
 				lblSubeKodu.setFont(new Font("Tahoma", Font.PLAIN, 14));

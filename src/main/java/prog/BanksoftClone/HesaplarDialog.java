@@ -10,23 +10,19 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-
 import org.bson.Document;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class HesaplarDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -34,9 +30,11 @@ public class HesaplarDialog extends JDialog {
 	private DefaultTableModel model = new DefaultTableModel();
 	private String hesapsube;
 	private String hesapno;
+	private String hesapnum;
 	private String dovizcinsi;
 	static KartGiris kg = new KartGiris();
 	private ArrayList<Document> hesaplar;
+	
 	public String getHesapno() {
 		return hesapno;
 	}
@@ -46,7 +44,7 @@ public class HesaplarDialog extends JDialog {
 	}
 
 	/**
-	 * Launch the application.
+	 * Aplikasyonu Çalıştırır.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -59,9 +57,10 @@ public class HesaplarDialog extends JDialog {
 	}
 
 	/**
-	 * Create the dialog.
+	 * Dialogu Oluşturur.
 	 * @param hesapmuststring 
 	 */
+	@SuppressWarnings("unchecked")
 	public HesaplarDialog(String hesapmuststring) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 939, 626);
@@ -98,8 +97,6 @@ public class HesaplarDialog extends JDialog {
 			for (Document d : iterable) {
 				hesaplar = (ArrayList<Document>) d.get("hesaplar");
 				
-				System.out.println(hesaplar.toString());
-				
 				Document[] hesaplarArr = hesaplar.toArray(new Document[0]);
 				for(Document doc : hesaplarArr) {
 					hesapno = (String) doc.get("hesapno");
@@ -120,8 +117,9 @@ public class HesaplarDialog extends JDialog {
 				JButton btnSec = new JButton("Seç");
 				btnSec.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						/*String hesapno = (String) model.getValueAt(table.getSelectedRow(), 0);*/
-		
+						
+						hesapnum = (String) model.getValueAt(table.getSelectedRow(), 0);
+						setVisible(false);
 					}
 				});
 				buttonPane.add(btnSec);
@@ -137,6 +135,10 @@ public class HesaplarDialog extends JDialog {
 				buttonPane.add(btnCikis);
 			}
 		}
+	}
+	
+	public String getHesapnum() {
+		return hesapnum;
 	}
 
 }
