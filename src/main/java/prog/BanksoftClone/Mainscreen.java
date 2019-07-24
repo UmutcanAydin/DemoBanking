@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Locale.Category;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -35,9 +37,7 @@ public class Mainscreen extends JFrame {
 	private JMenuItem mntmKYonetimGiris;
 	private JMenuItem mntmKyonetimGuncelleme;
 	private JMenuItem mntmKyonetimEticaretIzinDurumu;
-	private JMenuItem mntmMteriNumarasndanBilgi;
 	private JMenuItem mntmKartNumarasndanBilgi;
-	private JMenuItem mntmMteriAdndanBilgi;
 	private JMenuItem mntmCikis;
 	private JMenuItem mntmHakkinda;
 	private JMenuItem mntmKullaniciLogu;
@@ -78,9 +78,9 @@ public class Mainscreen extends JFrame {
 				mntmMusteriYonetimGiris.addActionListener(new ActionListener() {
 					
 					public void actionPerformed(ActionEvent e) {
+						logger.info("'Müşteri Giriş' sayfasına girildi.");
 						MusteriGiris mg = new MusteriGiris();
 						mg.setVisible(true);
-						
 					}
 				});
 			
@@ -89,6 +89,7 @@ public class Mainscreen extends JFrame {
 				mntmMusteriYonetimGuncelleme.addActionListener(new ActionListener() {
 					
 					public void actionPerformed(ActionEvent e) {
+						logger.info("'Müşteri Güncelleme' sayfasına girildi.");
 						MusteriGuncelle mgu = new MusteriGuncelle();
 						mgu.setVisible(true);
 						
@@ -103,6 +104,7 @@ public class Mainscreen extends JFrame {
 			mntmKYonetimGiris.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
+					logger.info("'Kart-Hesap Giriş' sayfasına girildi.");
 					KartGiris kvhgiris = new KartGiris();
 					kvhgiris.setVisible(true);
 					
@@ -114,6 +116,7 @@ public class Mainscreen extends JFrame {
 			mntmKyonetimGuncelleme.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
+					logger.info("'Kart-Hesap Güncelleme' sayfasına girildi.");
 					KartGuncelleme kgun = new KartGuncelleme();
 					kgun.setVisible(true);
 				}
@@ -124,6 +127,7 @@ public class Mainscreen extends JFrame {
 			mntmKyonetimEticaretIzinDurumu.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
+					logger.info("'E-Ticaret' sayfasına girildi.");
 					Eticaret et = new Eticaret();
 					et.setVisible(true);					
 				}
@@ -131,38 +135,38 @@ public class Mainscreen extends JFrame {
 		
 		mnMustVeKart = new JMenu("Müşteri ve Kullanıcı Bilgileri İnceleme");
 		menuBar.add(mnMustVeKart);
-		
-			mntmMteriNumarasndanBilgi = new JMenuItem("Müşteri Numarasından Bilgi Getirme");
-			mnMustVeKart.add(mntmMteriNumarasndanBilgi);
 			
 			mntmKartNumarasndanBilgi = new JMenuItem("Kart Numarasından Bilgi Getirme");
 			mnMustVeKart.add(mntmKartNumarasndanBilgi);
 			mntmKartNumarasndanBilgi.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
+					logger.info("'Karttan Bilgi İnceleme' sayfasına girildi.");
 					KarttanBilgiIncele kbi = new KarttanBilgiIncele();
 					kbi.setVisible(true);
 					
 				}
 			});
-			
-			mntmMteriAdndanBilgi = new JMenuItem("Müşteri Adından Bilgi Getirme");
-			mnMustVeKart.add(mntmMteriAdndanBilgi);
 		
 		mntmKullaniciLogu = new JMenuItem("Kullanıcı Logu");
 		menuBar.add(mntmKullaniciLogu);
+		mntmKullaniciLogu.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Log lg = new Log();
+				lg.setVisible(true);
+				
+			}
+		});
 		
 		mntmHakkinda = new JMenuItem("Hakkında");
 		menuBar.add(mntmHakkinda);
 		mntmHakkinda.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Desktop.getDesktop().open(new java.io.File("File/Hakkında"));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}	
+				logger.info("'Hakkında' sayfasına girildi.");
+				Hakkinda hk = new Hakkinda();
+				hk.setVisible(true);
 			}
 		});
 		
@@ -171,6 +175,7 @@ public class Mainscreen extends JFrame {
 		mntmCikis.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				logger.info("Çıkış yapıldı.");
 				System.exit(0);				
 			}
 		});

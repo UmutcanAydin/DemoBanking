@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
@@ -44,7 +46,8 @@ public class Eticaret extends JDialog {
 	private JRadioButton rdbtnKapali;
 	private Object id;
 	private String eticaret;
-	
+	private static final Logger logger = LogManager.getLogger(Eticaret.class);
+
 	/**
 	 * Aplikasyonu çalıştırır.
 	 */
@@ -150,6 +153,7 @@ public class Eticaret extends JDialog {
 		btnBul.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnBul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.info("'Bul' butonuna basıldı.");
 				 bul();
 			}
 		});
@@ -206,6 +210,7 @@ public class Eticaret extends JDialog {
 				JButton okButton = new JButton("Tamam");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						logger.info("'Tamam' butonuna basıldı.");
 						guncelle();
 					}
 				});
@@ -216,6 +221,7 @@ public class Eticaret extends JDialog {
 				JButton cancelButton = new JButton("Çık");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						logger.info("'Eticaret' sayfasından çıkış yapıldı.");
 						setVisible(false);
 					}
 				});

@@ -1,0 +1,5 @@
+2019-07-24 18:13:23.695 [AWT-EventQueue-0] INFO  prog.BanksoftClone.Mainscreen - 'Müşteri Giriş' sayfasına girildi.
+2019-07-24 18:13:25.158 [AWT-EventQueue-0] INFO  prog.BanksoftClone.MusteriGiris - 'Müşteri Giriş' sayfasından çıkış yapıldı.
+2019-07-24 18:13:26.247 [AWT-EventQueue-0] INFO  prog.BanksoftClone.Mainscreen - 'Kart-Hesap Güncelleme' sayfasına girildi.
+2019-07-24 18:13:27.303 [AWT-EventQueue-0] INFO  prog.BanksoftClone.KartGuncelleme - 'Kart Güncelle' sayfasından çıkış yapıldı.
+2019-07-24 18:13:30.352 [AWT-EventQueue-0] INFO  prog.BanksoftClone.Mainscreen - Çıkış yapıldı.

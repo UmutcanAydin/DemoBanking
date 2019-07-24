@@ -16,6 +16,9 @@ import javax.swing.JFormattedTextField;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
@@ -67,6 +70,7 @@ public class MusteriGuncelle extends JDialog {
 	private String eposta;
 	private String subekodu;
 	private Object objectId;
+	private static final Logger logger = LogManager.getLogger(MusteriGuncelle.class);
 
 	/**
 	 * Aplikasyonu çalıştırır.
@@ -213,6 +217,7 @@ public class MusteriGuncelle extends JDialog {
 			btnGuncelle.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {					
 						try {
+							logger.info("'Güncelle' butonuna basıldı.");
 							guncelle();
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
@@ -225,6 +230,7 @@ public class MusteriGuncelle extends JDialog {
 			JButton btnTemizle = new JButton("Temizle");
 			btnTemizle.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					logger.info("'Temizle' butonuna basıldı.");
 					temizle();
 				}
 			});
@@ -233,6 +239,7 @@ public class MusteriGuncelle extends JDialog {
 			JButton btnCikis = new JButton("Çıkış");
 			btnCikis.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					logger.info("'Müşteri Güncelle' sayfasından çıkış yapıldı.");
 					setVisible(false);
 				}
 			});

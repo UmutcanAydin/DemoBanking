@@ -18,6 +18,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.border.LineBorder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
@@ -69,7 +71,8 @@ public class KartGiris extends JDialog {
 	private JComboBox<Object> cbDovizCinsi;
 	private JComboBox<Object> cbHesapSubesi;
 	private JTabbedPane tabbedPane;
-	
+	private static final Logger logger = LogManager.getLogger(KartGiris.class);
+
 	/**
 	 * Aplikasyonu çalıştırır.
 	 */
@@ -292,6 +295,7 @@ public class KartGiris extends JDialog {
 				btnHesapGiris.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!txtHesapNo.getText().equals("")) {
+							logger.info("'Giriş'(Hesap) butonuna basıldı.");
 							HesapGiris();
 						}else {
 							JOptionPane.showMessageDialog(null, "Lütfen Formu Doldurun.");
@@ -304,6 +308,7 @@ public class KartGiris extends JDialog {
 				JButton btnHesapTemizle = new JButton("Temizle");
 				btnHesapTemizle.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						logger.info("'Temizle'(Hesap) butonuna basıldı.");
 						HesapTemizle();
 					}
 				});
@@ -313,6 +318,7 @@ public class KartGiris extends JDialog {
 				btnYeniHesap.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!txtHesapNo.getText().equals("")) {
+							logger.info("'Yeni Hesap' butonuna basıldı.");
 							HesapGiris();
 							HesapTemizle();
 						}else {
@@ -323,12 +329,10 @@ public class KartGiris extends JDialog {
 				});
 				panel_3.add(btnYeniHesap);
 				
-				JButton btnHesapExel = new JButton("Exel'e Aktar");
-				panel_3.add(btnHesapExel);
-				
 				JButton btnHesapCikis = new JButton("Çıkış");
 				btnHesapCikis.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						logger.info("'Hesap Giriş' sayfasından çıkış yapıldı.");
 						setVisible(false);
 					}
 				});
@@ -347,6 +351,7 @@ public class KartGiris extends JDialog {
 				btnHesapMustBul.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!txtHesapMustGetir.getText().equals("")) {
+							logger.info("'Bul'(Hesap) butonuna basıldı.");
 							HesapBul();
 							subeidal();
 						}else {
@@ -490,6 +495,7 @@ public class KartGiris extends JDialog {
 				btnMustBul.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!txtMustGetir.getText().equals("")) {
+							logger.info("'Bul'(Kart) butonuna basıldı.");
 							KartBul();
 						}else {
 							JOptionPane.showMessageDialog(null, "Lütfen Müşteri Numarası Girin.");
@@ -631,6 +637,7 @@ public class KartGiris extends JDialog {
 				btnKartGiris.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 							try {
+								logger.info("'Giriş'(Kart) butonuna basıldı.");
 								KartGir();
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
@@ -643,6 +650,7 @@ public class KartGiris extends JDialog {
 				JButton btnKartTemizle = new JButton("Temizle");
 				btnKartTemizle.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						logger.info("'Temizle'(Kart) butonuna basıldı.");
 						KartTemizle();
 					}
 				});
@@ -653,6 +661,7 @@ public class KartGiris extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if(!txtKartNo.getText().equals("") && !ftxtKartGecerlilikTarihi.getText().equals("") && !txtKartCvv.getText().equals("")) {
 							try {
+								logger.info("'Yeni Kart' butonuna basıldı.");
 								KartGir();
 								KartTemizle();
 							} catch (Exception e1) {
@@ -666,12 +675,10 @@ public class KartGiris extends JDialog {
 				});
 				panel_1.add(btnYeniKart);
 				
-				JButton btnKartExel = new JButton("Exel'e Aktar");
-				panel_1.add(btnKartExel);
-				
 				JButton btnKartCikis = new JButton("Çıkış");
 				btnKartCikis.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						logger.info("'Kart Giriş' sayfasından çıkış yapıldı.");
 						setVisible(false);
 					}
 				});

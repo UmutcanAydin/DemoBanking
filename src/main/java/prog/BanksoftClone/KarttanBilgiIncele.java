@@ -16,6 +16,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
@@ -55,6 +57,7 @@ public class KarttanBilgiIncele extends JDialog {
 	private DefaultTableModel model = new DefaultTableModel();
 	private DefaultTableModel model_1 = new DefaultTableModel();
 	private DefaultTableModel model_2 = new DefaultTableModel();
+	private static final Logger logger = LogManager.getLogger(KarttanBilgiIncele.class);
 
 	/**
 	 * Aplikasyonu çalıştırır.
@@ -176,6 +179,7 @@ public class KarttanBilgiIncele extends JDialog {
 		JButton btnGetir = new JButton("Getir");
 		btnGetir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.info("'Getir'(KarttanBilgiIncele) butonuna basıldı.");
 				model.setRowCount(0);
 				model_1.setRowCount(0);
 				model_2.setRowCount(0);

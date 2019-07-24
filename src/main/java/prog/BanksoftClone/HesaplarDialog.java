@@ -12,6 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
@@ -33,7 +36,8 @@ public class HesaplarDialog extends JDialog {
 	private String hesapnum;
 	private String dovizcinsi;
 	static KartGiris kg = new KartGiris();
-	
+	private static final Logger logger = LogManager.getLogger(HesaplarDialog.class);
+
 	public String getHesapno() {
 		return hesapno;
 	}
@@ -113,7 +117,7 @@ public class HesaplarDialog extends JDialog {
 				JButton btnSec = new JButton("Seç");
 				btnSec.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						logger.info("'Seç' butonuna basıldı.");
 						hesapnum = (String) model.getValueAt(table.getSelectedRow(), 0);
 						setVisible(false);
 					}
@@ -125,6 +129,7 @@ public class HesaplarDialog extends JDialog {
 				JButton btnCikis = new JButton("Çıkış");
 				btnCikis.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						logger.info("'HesaplarDialog' sayfasından çıkıldı.");
 						setVisible(false);
 					}
 				});

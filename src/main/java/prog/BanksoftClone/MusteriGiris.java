@@ -134,7 +134,6 @@ public class MusteriGiris extends JDialog {
 	public MusteriGiris() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 939, 520);
-		logger.info("Bütün alanalar doldurulmalı");
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -149,6 +148,7 @@ public class MusteriGiris extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					
 					 try {
+						logger.info("'Giriş' butonuna basıldı.");
 						giris();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
@@ -161,6 +161,7 @@ public class MusteriGiris extends JDialog {
 			JButton btnTemizle = new JButton("Temizle");
 			btnTemizle.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					logger.info("'Temizle' butonuna basıldı.");
 					temizle();
 				}
 			});
@@ -170,22 +171,21 @@ public class MusteriGiris extends JDialog {
 			btnYeniMusteri.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 						try {
+							logger.info("'Yeni Müşteri' butonuna basıldı.");
 							giris();
+							temizle();	
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						temizle();	
 				}
 			});
 			pnlButtons.add(btnYeniMusteri);
 			
-			JButton btnExeleAktar = new JButton("Exel'e Aktar");
-			pnlButtons.add(btnExeleAktar);
-			
 			JButton btnCikis = new JButton("Çıkış");
 			btnCikis.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					logger.info("'Müşteri Giriş' sayfasından çıkış yapıldı.");
 					setVisible(false);
 				}
 			});
