@@ -15,6 +15,9 @@ import javax.swing.JFormattedTextField;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -45,7 +48,7 @@ public class MusteriGiris extends JDialog {
 	private JComboBox<Object> cbSubeKodu;
 	DefaultTableModel model = new DefaultTableModel();
 	private JButton btnGiris;
-	
+	private static final Logger logger = LogManager.getLogger(MusteriGiris.class);
 	
 	/**
 	 * Aplikasyonu çalıştırır.
@@ -55,7 +58,6 @@ public class MusteriGiris extends JDialog {
 			MusteriGiris dialog = new MusteriGiris();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -132,6 +134,7 @@ public class MusteriGiris extends JDialog {
 	public MusteriGiris() {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 939, 520);
+		logger.info("Bütün alanalar doldurulmalı");
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

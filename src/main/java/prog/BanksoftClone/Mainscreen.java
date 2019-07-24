@@ -14,6 +14,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.Color;
 import java.awt.Desktop;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Umutcan Aydin
@@ -39,6 +41,7 @@ public class Mainscreen extends JFrame {
 	private JMenuItem mntmCikis;
 	private JMenuItem mntmHakkinda;
 	private JMenuItem mntmKullaniciLogu;
+	private static final Logger logger = LogManager.getLogger(Mainscreen.class);
 	
 	/**
 	 * Aplikasyonu Çalıştırır.
@@ -134,6 +137,14 @@ public class Mainscreen extends JFrame {
 			
 			mntmKartNumarasndanBilgi = new JMenuItem("Kart Numarasından Bilgi Getirme");
 			mnMustVeKart.add(mntmKartNumarasndanBilgi);
+			mntmKartNumarasndanBilgi.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent e) {
+					KarttanBilgiIncele kbi = new KarttanBilgiIncele();
+					kbi.setVisible(true);
+					
+				}
+			});
 			
 			mntmMteriAdndanBilgi = new JMenuItem("Müşteri Adından Bilgi Getirme");
 			mnMustVeKart.add(mntmMteriAdndanBilgi);
